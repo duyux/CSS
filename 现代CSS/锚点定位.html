@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS 锚点定位示例</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+
+            &::before,
+            &::after {
+                box-sizing: inherit;
+            }
+        }
+
+        :root {
+            color-scheme: light dark;
+
+            @media (prefers-color-scheme: dark) {
+                color-scheme: dark only;
+
+            }
+
+            @media (prefers-color-scheme: light) {
+                color-scheme: light only;
+            }
+        }
+
+        body {
+            display: grid;
+            place-content: center;
+            gap: 2rem;
+            min-block-size: 100dvb;
+            font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto,
+                "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+            background: light-dark(oklch(98% none none), oklch(10% none none));
+            color: CanvasText;
+        }
+
+        .button {
+            anchor-name: --my-button;
+            padding: 12px 24px;
+            border: 1px solid #1a1a1a;
+            background: transparent;
+            color: #1a1a1a;
+            border-radius: 12px;
+            font-size: 16px;
+            cursor: pointer;
+
+            :is(&:hover, &:hocus)+.tooltip {
+                opacity: 1;
+            }
+        }
+
+        .tooltip {
+            position: absolute;
+            position-anchor: --my-button;
+            bottom: anchor(top);
+            left: anchor(center);
+            translate: -50% 0;
+            margin-bottom: 12px;
+
+            background: #1a1a1a;
+            color: white;
+            padding: 8px 14px;
+            border-radius: 8px;
+            font-size: 14px;
+            white-space: nowrap;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.15s;
+
+            &::after {
+                content: '';
+                position: absolute;
+                top: 100%;
+                left: 50%;
+                translate: -50% 0;
+                border: 6px solid transparent;
+                border-top-color: #1a1a1a;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <button class="button">Press me if you can</button>
+        <div class="tooltip">No JS.Pure CSS anchor positioning.</div>
+    </div>
+</body>
+
+</html>
